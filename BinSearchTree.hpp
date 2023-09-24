@@ -1,5 +1,6 @@
 //
 // Created by Ali Kooshesh on 3/1/23.
+// Completed by Ethan Edwards and Emily Hernandez on 20/9/23.
 //
 
 #ifndef BINSEARCHTREE_BINSEARCHTREE_HPP
@@ -11,28 +12,31 @@
 
 class BinSearchTree {
 public:
-    // Boilerplate ʕノ•ᴥ•ʔノ ︵ ┻━┻
+    // Management
     BinSearchTree();
-    void insert( int v );
+    ~BinSearchTree();
+
+    // Search methods
+    int size();
+    int maxDepth();
     bool find( int v );
     bool iterFind( int v );
-    int size();
     void inorderDump();
-    int maxDepth();
+    void levelOrderDump();
+    // Insert methods
+    void insert( int v );
     void iterInsert( int v );
-
-    ~BinSearchTree();
 
 private:
     TreeNode *insert( TreeNode *, int );
     TreeNode *root;
 
-    // Actual code
+    // Search methods
     int size(TreeNode *root);
-    bool find(TreeNode *root, int v);
     int maxDepth(TreeNode *root);
+    bool find(TreeNode *root, int v);
     void inorderDump(TreeNode *root);
-
+    // Management
     int deleteTree(TreeNode *root);
 
 };

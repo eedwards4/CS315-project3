@@ -3,6 +3,7 @@
 // Completed by Ethan Edwards and Emily Hernandez on 20/9/23.
 //
 
+#include <queue>
 #include "BinSearchTree.hpp"
 
 BinSearchTree::BinSearchTree(): root{nullptr} {}
@@ -39,9 +40,6 @@ int BinSearchTree::size(TreeNode *root) {
 }
 
 bool BinSearchTree::find(int v) {
-    // You need to write a recursive implementation for this function.
-    // Right now, it returns false so that insert can do its job.
-    // That means, it will add duplicates to the tree, which is not desirable.
     return find(root, v);
 }
 
@@ -121,8 +119,27 @@ void BinSearchTree::inorderDump(TreeNode *root) {
         return;
     }
     inorderDump(root->leftSubtree());
-    std::cout << root->value() << std::endl;
+    std::cout << root->value() << " ";
     inorderDump(root->rightSubtree());
+}
+
+void BinSearchTree::levelOrderDump() {
+    if (root == nullptr){
+        return;
+    }
+    std::queue<TreeNode *> q;
+    q.push(root);
+    while (!q.empty()){
+        TreeNode *current = q.front();
+        std::cout << current->value() << " ";
+        q.pop();
+        if (current->leftSubtree() != nullptr){
+            q.push(current->leftSubtree());
+        }
+        if (current->rightSubtree() != nullptr){
+            q.push(current->rightSubtree());
+        }
+    }
 }
 
 BinSearchTree::~BinSearchTree() {
