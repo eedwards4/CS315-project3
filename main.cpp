@@ -83,7 +83,6 @@ std::vector<int> testSeven(BinSearchTree& tree){
     return tests;
 }
 
-
 // Main
 int main( int argc, char *argv[] ) {
     // create a tree and then print the values of its nodes
@@ -126,11 +125,14 @@ int main( int argc, char *argv[] ) {
     }
     std::cout << "Running multi tests...\n";
     multiTestResults.push_back(testSeven(*tree));
+    int iter = 7;
     for (std::vector<int> i : multiTestResults){
+        std::cout << "Results for test " << iter << ":" << std::endl;
         for (int j = 0; j < i.size(); j++){
             if (i.at(j) == 0){std::cout << "FAILED TEST: " << j << std::endl;}
             else {std::cout << "OK" << std::endl;}
         }
+        iter++;
     }
     return 0;
 }
