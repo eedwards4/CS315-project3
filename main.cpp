@@ -17,7 +17,22 @@
 #define TEST_INSERT_TWO 100
 
 // Utils
+BinSearchTree* treeBuilder(std::string fName){
+    std::fstream inputStream;
+    inputStream.open(fName, std::ios::in);
+    if(!inputStream.is_open()) {
+        std::cout << "Unable to open the input file " << fName << std::endl;
+        std::cout << "Terminating...\n";
+        exit(7);
+    }
 
+    BinSearchTree *tree = new BinSearchTree();
+    int aValue;
+    while( inputStream >> aValue ) {
+        tree->insert(aValue);
+    }
+    return tree;
+}
 
 // Tests
 int testZero(BinSearchTree& tree){
@@ -55,6 +70,19 @@ void testSix(BinSearchTree& tree){
     std::cout << "Test should equal the above ^\n";
 }
 
+std::vector<int> testSeven(BinSearchTree& tree){
+    std::vector<int> tests;
+    std::vector<int> testIntsTrue = {34, 38, 101};
+    std::vector<int> testIntsFalse = {100, 200, 300};
+    for (int i : testIntsTrue){ // These should all be true
+        tests.push_back(tree.remove(i) && !tree.find(i));
+    }
+    for (int i : testIntsFalse){ // These should all be false
+        tests.push_back(!tree.remove(i) && !tree.find(i));
+    }
+    return tests;
+}
+
 
 // Main
 int main( int argc, char *argv[] ) {
@@ -65,31 +93,23 @@ int main( int argc, char *argv[] ) {
         std::cout << "usage: executable name-of-input-file\n";
         exit(5);
     }
-    std::fstream inputStream;
-    inputStream.open(argv[1], std::ios::in);
-    if(!inputStream.is_open()) {
-        std::cout << "Unable to open the input file " <<
-                  argv[1] << std::endl;
-        std::cout << "Terminating...\n";
-        exit(7);
-    }
+    std::string fName = argv[1];
 
-    BinSearchTree *tree = new BinSearchTree();
-    int aValue;
-    while( inputStream >> aValue ) {
-        tree->insert(aValue);
-    }
+    BinSearchTree *tree = treeBuilder(fName);
 
     // Tests
     int testNum = 0;
     std::vector<int> testResults;
+    std::vector<std::vector<int>> multiTestResults;
     testResults.push_back(testZero(*tree));
     testResults.push_back(testOne(*tree));
     testResults.push_back(testTwo(*tree));
     testResults.push_back(testThree(*tree));
     testFour(*tree);
     testResults.push_back(testFive(*tree));
+    tree = treeBuilder(fName);
     testSix(*tree);
+    std::cout << "Running simple tests...\n";
     for (int i : testResults){
         if (i == 0){
             std::cout << "Test " << testNum << " failed." << std::endl;
@@ -102,6 +122,14 @@ int main( int argc, char *argv[] ) {
         }
         else {
             testNum++;
+        }
+    }
+    std::cout << "Running multi tests...\n";
+    multiTestResults.push_back(testSeven(*tree));
+    for (std::vector<int> i : multiTestResults){
+        for (int j = 0; j < i.size(); j++){
+            if (i.at(j) == 0){std::cout << "FAILED TEST: " << j << std::endl;}
+            else {std::cout << "OK" << std::endl;}
         }
     }
     return 0;

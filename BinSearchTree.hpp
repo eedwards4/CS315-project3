@@ -15,7 +15,7 @@ public:
     // Management
     BinSearchTree();
     ~BinSearchTree();
-
+    bool remove(int v);
     // Search methods
     int size();
     int maxDepth();
@@ -31,13 +31,13 @@ private:
     TreeNode *insert( TreeNode *, int );
     TreeNode *root;
 
+    // Management
+    int deleteTree(TreeNode *root);
     // Search methods
     int size(TreeNode *root);
     int maxDepth(TreeNode *root);
     bool find(TreeNode *root, int v);
     void inorderDump(TreeNode *root);
-    // Management
-    int deleteTree(TreeNode *root);
 
 };
 
