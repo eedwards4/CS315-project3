@@ -214,11 +214,23 @@ void BinSearchTree::iterValuesAtLevel(int l) {
     if (root == nullptr){
         return;
     }
-    std::queue<TreeNode *> q;
-    q.push(root);
-    int level = 0;
+    std::queue<std::tuple<TreeNode*, int>> q;
+    q.emplace(root, 1);
     while (!q.empty()){
-
+        TreeNode *current = std::get<0>(q.front());
+        int currLvl = std::get<1>(q.front());
+        q.pop();
+        if (currLvl == l){
+            std::cout << current->value() << " ";
+        }
+        else {
+            if (current->leftSubtree() != nullptr) {
+                q.emplace(current->leftSubtree(), currLvl + 1);
+            }
+            if (current->rightSubtree() != nullptr) {
+                q.emplace(current->rightSubtree(), currLvl + 1);
+            }
+        }
     }
 }
 

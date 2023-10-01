@@ -100,6 +100,11 @@ std::vector<int> testEight(BinSearchTree& tree){
 }
 
 void testNine(BinSearchTree& tree){
+    std::cout << "Testing values at level [1]:\n";
+    tree.valuesAtLevel(1);
+    std::cout << "\n36" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+
     std::cout << "Testing values at level [3]:\n";
     tree.valuesAtLevel(3);
     std::cout << "\n30 35 89 120" << std::endl;
@@ -112,6 +117,28 @@ void testNine(BinSearchTree& tree){
 
     std::cout << "Testing values at level [8]:\n";
     tree.valuesAtLevel(8);
+    std::cout << "\n55 75" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+}
+
+void testTen(BinSearchTree& tree){
+    std::cout << "Testing iterative values at level [1]:\n";
+    tree.iterValuesAtLevel(1);
+    std::cout << "\n36" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+
+    std::cout << "Testing iterative values at level [3]:\n";
+    tree.iterValuesAtLevel(3);
+    std::cout << "\n30 35 89 120" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+
+    std::cout << "Testing iterative values at level [4]:\n";
+    tree.iterValuesAtLevel(4);
+    std::cout << "\n31 34 43 101 117 122" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+
+    std::cout << "Testing iterative values at level [8]:\n";
+    tree.iterValuesAtLevel(8);
     std::cout << "\n55 75" << std::endl;
     std::cout << "Test should equal the above ^\n";
 }
@@ -161,6 +188,7 @@ int main( int argc, char *argv[] ) {
     tree = treeBuilder(fName);
     multiTestResults.push_back(testEight(*tree));
     testNine(*tree);
+    testTen(*tree);
     int iter = 7;
     for (std::vector<int> i : multiTestResults){
         std::cout << "Results for test " << iter << ":" << std::endl;
