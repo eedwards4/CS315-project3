@@ -167,6 +167,21 @@ bool BinSearchTree::iterFind(int v) {
     return false;
 }
 
+bool BinSearchTree::hasRootToLeafSum(int sum) {
+    return hasRootToLeafSum(root, sum);
+}
+
+bool BinSearchTree::hasRootToLeafSum(TreeNode *root, int sum) {
+    if (root == nullptr){
+        return false;
+    }
+    if (root->leftSubtree() == nullptr && root->rightSubtree() == nullptr){
+        if (sum - root->value() < 0){return false;}
+        return true;
+    }
+    return hasRootToLeafSum(root->leftSubtree(), sum - root->value()) || hasRootToLeafSum(root->rightSubtree(), sum - root->value());
+}
+
 void BinSearchTree::inorderDump() {
     inorderDump(root);
 }

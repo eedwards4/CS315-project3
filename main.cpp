@@ -149,6 +149,13 @@ bool testEleven(BinSearchTree& tree){
     return tree.iterMaxDepth() == TEST_MAXDEPTH;
 }
 
+std::vector<int> testTwelve(BinSearchTree& tree){
+    std::vector<int> testResults, testsTrue = {137, 675, 485}, testsFalse = {100, 110, 5};
+    for (int i : testsTrue){testResults.push_back(tree.hasRootToLeafSum(i));}
+    for (int i : testsFalse){testResults.push_back(!tree.hasRootToLeafSum(i));}
+    return testResults;
+}
+
 // Main
 int main( int argc, char *argv[] ) {
     // create a tree and then print the values of its nodes
@@ -213,6 +220,10 @@ int main( int argc, char *argv[] ) {
     std::cout << "Results for test 11:" << std::endl;
     if (testEleven(*tree) == true){std::cout << "OK" << std::endl;}
     else {std::cout << "FAILED TEST 11" << std::endl;}
-
+    std::cout << "Results for test 12:" << std::endl;
+    for (int i : testTwelve(*tree)){
+        if (i == 0){std::cout << "FAILED TEST" << std::endl;}
+        else {std::cout << "OK" << std::endl;}
+    }
     return 0;
 }
