@@ -107,7 +107,22 @@ int BinSearchTree::maxDepth(TreeNode *root) {
 
 int BinSearchTree::iterMaxDepth() {
     if (root == nullptr){return 1;}
-
+    int maxDepth = 1;
+    std::queue<std::tuple<TreeNode*, int>> q;
+    q.emplace(root, 1);
+    while (!q.empty()){
+        TreeNode *current = std::get<0>(q.front());
+        int currDepth = std::get<1>(q.front());
+        q.pop();
+        if (currDepth > maxDepth){maxDepth = currDepth;}
+        if (current->leftSubtree() != nullptr){
+            q.emplace(current->leftSubtree(), currDepth+1);
+        }
+        if (current->rightSubtree() != nullptr){
+            q.emplace(current->rightSubtree(), currDepth+1);
+        }
+    }
+    return maxDepth;
 }
 
 int BinSearchTree::kthSmallest(int k) {

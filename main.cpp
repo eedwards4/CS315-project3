@@ -15,6 +15,8 @@
 #define TEST_FIND 1
 #define TEST_INSERT_ONE 84
 #define TEST_INSERT_TWO 100
+// TOGGLES
+#define VERBOSE false
 
 // Utils
 BinSearchTree* treeBuilder(std::string fName){
@@ -143,6 +145,10 @@ void testTen(BinSearchTree& tree){
     std::cout << "Test should equal the above ^\n";
 }
 
+bool testEleven(BinSearchTree& tree){
+    return tree.iterMaxDepth() == TEST_MAXDEPTH;
+}
+
 // Main
 int main( int argc, char *argv[] ) {
     // create a tree and then print the values of its nodes
@@ -164,10 +170,10 @@ int main( int argc, char *argv[] ) {
     testResults.push_back(testOne(*tree));
     testResults.push_back(testTwo(*tree));
     testResults.push_back(testThree(*tree));
-    testFour(*tree);
+    if (VERBOSE){testFour(*tree);} else {std::cout << "Skipping inorder dump [4]\n";}
     testResults.push_back(testFive(*tree));
     tree = treeBuilder(fName);
-    testSix(*tree);
+    if (VERBOSE){testSix(*tree);} else {std::cout << "Skipping level order dump [6]\n";}
     std::cout << "Running simple tests...\n";
     for (int i : testResults){
         if (i == 0){
@@ -187,8 +193,6 @@ int main( int argc, char *argv[] ) {
     multiTestResults.push_back(testSeven(*tree));
     tree = treeBuilder(fName);
     multiTestResults.push_back(testEight(*tree));
-    testNine(*tree);
-    testTen(*tree);
     int iter = 7;
     for (std::vector<int> i : multiTestResults){
         std::cout << "Results for test " << iter << ":" << std::endl;
@@ -198,5 +202,17 @@ int main( int argc, char *argv[] ) {
         }
         iter++;
     }
+    if (VERBOSE){
+        std::cout << "Running level tests...\n";
+        tree = treeBuilder(fName);
+        std::cout << "Results for test 9:" << std::endl;
+        testNine(*tree);
+        std::cout << "Results for test 10:" << std::endl;
+        testTen(*tree);
+    } else {std::cout << "Skipping level tests [9-10]\n";}
+    std::cout << "Results for test 11:" << std::endl;
+    if (testEleven(*tree) == true){std::cout << "OK" << std::endl;}
+    else {std::cout << "FAILED TEST 11" << std::endl;}
+
     return 0;
 }
