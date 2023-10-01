@@ -66,7 +66,7 @@ int testFive(BinSearchTree& tree){
 void testSix(BinSearchTree& tree){
     std::cout << "Testing level order dump...\n";
     tree.levelOrderDump();
-    std::cout << "\n" << std::endl;
+    std::cout << "\n36 32 104 30 35 89 120 31 34 43 101 117 122 41 79 108 39 54 85 116 38 56 84 87 55 75 67 72" << std::endl;
     std::cout << "Test should equal the above ^\n";
 }
 
@@ -81,6 +81,39 @@ std::vector<int> testSeven(BinSearchTree& tree){
         tests.push_back(!tree.remove(i) && !tree.find(i));
     }
     return tests;
+}
+
+std::vector<int> testEight(BinSearchTree& tree){
+    std::vector<int> tests;
+    std::vector<int> testInts = {4, 8, 10, 20, 11, 9};
+    std::vector<int> answerInts = {34, 39, 43, 87, 54, 41};
+    for (int i = 0; i < testInts.size(); i++){
+        int tmp = tree.kthSmallest(testInts.at(i));
+        if (tmp != answerInts.at(i)){
+            tests.push_back(0);
+        }
+        else {
+            tests.push_back(1);
+        }
+    }
+    return tests;
+}
+
+void testNine(BinSearchTree& tree){
+    std::cout << "Testing values at level [3]:\n";
+    tree.valuesAtLevel(3);
+    std::cout << "\n30 35 89 120" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+
+    std::cout << "Testing values at level [4]:\n";
+    tree.valuesAtLevel(4);
+    std::cout << "\n31 34 43 101 117 122" << std::endl;
+    std::cout << "Test should equal the above ^\n";
+
+    std::cout << "Testing values at level [8]:\n";
+    tree.valuesAtLevel(8);
+    std::cout << "\n55 75" << std::endl;
+    std::cout << "Test should equal the above ^\n";
 }
 
 // Main
@@ -125,6 +158,9 @@ int main( int argc, char *argv[] ) {
     }
     std::cout << "Running multi tests...\n";
     multiTestResults.push_back(testSeven(*tree));
+    tree = treeBuilder(fName);
+    multiTestResults.push_back(testEight(*tree));
+    testNine(*tree);
     int iter = 7;
     for (std::vector<int> i : multiTestResults){
         std::cout << "Results for test " << iter << ":" << std::endl;

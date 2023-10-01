@@ -105,6 +105,20 @@ int BinSearchTree::maxDepth(TreeNode *root) {
     return std::max(maxDepth(root->leftSubtree()), maxDepth(root->rightSubtree())) + 1;
 }
 
+int BinSearchTree::iterMaxDepth() {
+    if (root == nullptr){return 1;}
+
+}
+
+int BinSearchTree::kthSmallest(int k) {
+    if (k > size(root)){
+        return -1;
+    }
+    std::vector<int> values;
+    inorderDump(root, values);
+    return values.at(k-1);
+}
+
 bool BinSearchTree::find(int v) {
     return find(root, v);
 }
@@ -151,6 +165,15 @@ void BinSearchTree::inorderDump(TreeNode *root) {
     inorderDump(root->rightSubtree());
 }
 
+void BinSearchTree::inorderDump(TreeNode *root, std::vector<int> &values) { // Overload to return values as vector
+    if (root == nullptr){
+        return;
+    }
+    inorderDump(root->leftSubtree(), values);
+    values.push_back(root->value());
+    inorderDump(root->rightSubtree(), values);
+}
+
 void BinSearchTree::levelOrderDump() {
     if (root == nullptr){
         return;
@@ -167,6 +190,35 @@ void BinSearchTree::levelOrderDump() {
         if (current->rightSubtree() != nullptr){
             q.push(current->rightSubtree());
         }
+    }
+}
+
+void BinSearchTree::valuesAtLevel(int l) {
+    valuesAtLevel(root, l, 1);
+}
+
+void BinSearchTree::valuesAtLevel(TreeNode *root, int l, int currLvl){
+    if (root == nullptr){
+        return;
+    }
+    if (l == currLvl){
+        std::cout << root->value() << " ";
+        return;
+    }
+    valuesAtLevel(root->leftSubtree(), l, currLvl+1);
+    valuesAtLevel(root->rightSubtree(), l, currLvl+1);
+}
+
+
+void BinSearchTree::iterValuesAtLevel(int l) {
+    if (root == nullptr){
+        return;
+    }
+    std::queue<TreeNode *> q;
+    q.push(root);
+    int level = 0;
+    while (!q.empty()){
+
     }
 }
 

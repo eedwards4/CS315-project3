@@ -8,6 +8,7 @@
 
 
 #include <iostream>
+#include <vector>
 #include "TreeNode.hpp"
 
 class BinSearchTree {
@@ -19,10 +20,14 @@ public:
     // Search methods
     int size();
     int maxDepth();
+    int iterMaxDepth();
+    int kthSmallest(int k);
     bool find( int v );
     bool iterFind( int v );
     void inorderDump();
     void levelOrderDump();
+    void valuesAtLevel(int l);
+    void iterValuesAtLevel(int l);
     // Insert methods
     void insert( int v );
     void iterInsert( int v );
@@ -38,6 +43,8 @@ private:
     int maxDepth(TreeNode *root);
     bool find(TreeNode *root, int v);
     void inorderDump(TreeNode *root);
+    void inorderDump(TreeNode *root, std::vector<int> &values);
+    void valuesAtLevel(TreeNode *root, int l, int currLvl);
 
 };
 
