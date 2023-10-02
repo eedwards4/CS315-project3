@@ -228,14 +228,14 @@ bool bigTestsSingle(){
     BinSearchTree *bigTree = treeBuilder("bigTest1.txt");
     // Stress testing only, not for actual checking
     try {
-        std::cout << bigTree->size() << std::endl;
-        std::cout << bigTree->maxDepth() << std::endl;
-        std::cout << bigTree->iterMaxDepth() << std::endl;
-        std::cout << bigTree->find(100) << std::endl;
-        std::cout << bigTree->iterFind(100) << std::endl;
-        std::cout << bigTree->hasRootToLeafSum(1000) << std::endl;
-        std::cout << bigTree->kthSmallest(100) << std::endl;
-        std::cout << bigTree->remove(100) << std::endl;
+        bigTree->size();
+        bigTree->maxDepth();
+        bigTree->iterMaxDepth();
+        bigTree->find(100);
+        bigTree->iterFind(100);
+        bigTree->hasRootToLeafSum(1000);
+        bigTree->kthSmallest(100);
+        bigTree->remove(100);
         bigTree->valuesAtLevel(25);
         bigTree->iterValuesAtLevel(25);
     } catch (std::exception &e){
@@ -300,7 +300,6 @@ int main( int argc, char *argv[] ) {
     //randomNumberGenerator(32);
 
     // Tests
-    /*
     int testNum = 0;
     std::vector<int> testResults;
     std::vector<std::vector<int>> multiTestResults;
@@ -372,7 +371,7 @@ int main( int argc, char *argv[] ) {
     testFifteen(tree);
 
     std::cout << "Results for test 16:" << std::endl;
-    testSixteen(tree);*/
+    testSixteen(tree);
 
     return 0;
 }
