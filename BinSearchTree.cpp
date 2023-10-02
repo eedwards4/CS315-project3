@@ -354,7 +354,7 @@ BinSearchTree *BinSearchTree::makeBalancedTree(std::vector<int> &values, int sta
 }
 
 void pareDupes(std::vector<int> &v){
-    int i = 0;
+    long unsigned int i = 0;
     while (i < v.size()-1){
         if (v.at(i) == v.at(i+1)){
             v.erase(v.begin()+(i+1));
