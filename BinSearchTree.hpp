@@ -1,6 +1,6 @@
 //
 // Created by Ali Kooshesh on 3/1/23.
-// Completed by Ethan Edwards and Emily Hernandez on 20/9/23.
+// Completed by Ethan Edwards on 2/10/23.
 //
 
 #ifndef BINSEARCHTREE_BINSEARCHTREE_HPP
@@ -36,7 +36,7 @@ public:
     // New Trees
     BinSearchTree *intersectWith(BinSearchTree *bst);
     BinSearchTree *unionWith(BinSearchTree *bst);
-    //BinSearchTree *differenceOf(BinSearchTree *bst);
+    BinSearchTree *differenceOf(BinSearchTree *bst);
 
 private:
     TreeNode *insert( TreeNode *, int );

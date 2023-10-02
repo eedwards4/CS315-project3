@@ -1,6 +1,6 @@
 //
 // Created by Ali Kooshesh on 3/1/23.
-// Completed by Ethan Edwards and Emily Hernandez on 20/9/23.
+// Completed by Ethan Edwards on 2/10/23.
 //
 
 #include <queue>
@@ -421,4 +421,28 @@ BinSearchTree *BinSearchTree::unionWith(BinSearchTree *bst) {
     pareDupes(unionValues);
     unionTree = makeBalancedTree(unionValues, 0, unionValues.size()-1);
     return unionTree;
+}
+
+BinSearchTree *BinSearchTree::differenceOf(BinSearchTree *bst) {
+    BinSearchTree *differenceTree;
+    std::vector<int> thisValues, otherValues, differenceValues;
+    makeInorderVector(root, thisValues);
+    makeInorderVector(bst->root, otherValues);
+    int i = 0, j = 0;
+    while (i < thisValues.size()){ // Get values
+        if (!bst->find(thisValues.at(i))){
+            differenceValues.push_back(thisValues.at(i));
+        }
+        i++;
+    }
+    while (j < otherValues.size()){ // Get values
+        if (!this->find(otherValues.at(j))){
+            differenceValues.push_back(otherValues.at(j));
+        }
+        j++;
+    }
+    // Make balanced tree from values
+    std::sort(differenceValues.begin(), differenceValues.end());
+    differenceTree = makeBalancedTree(differenceValues, 0, differenceValues.size()-1);
+    return differenceTree;
 }

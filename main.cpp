@@ -1,3 +1,4 @@
+// Created by Ethan Edwards for CS315 at SSU
 #include <iostream>
 
 #include "BinSearchTree.hpp"
@@ -6,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <chrono>
 #include "TreeNode.hpp"
 #include "BinSearchTree.hpp"
 
@@ -204,6 +206,68 @@ void testFifteen(BinSearchTree *tree){
     std::cout << "Test should equal the above ^\n";
 }
 
+void testSixteen(BinSearchTree *tree){
+    std::cout << "Testing difference...\n";
+    BinSearchTree *secondTree = treeBuilder("moreInputNumbers.txt");
+    BinSearchTree *thirdTree = treeBuilder("moreInputNumbers2.txt");
+    BinSearchTree *differenceTree = tree->differenceOf(secondTree);
+    std::cout << "Difference 1:\n";
+    differenceTree->inorderDump();
+    std::cout << "\n\n";
+    std::cout << "Test should equal the above ^\n";
+    differenceTree = secondTree->differenceOf(thirdTree);
+    std::cout << "Difference 2:\n";
+    differenceTree->inorderDump();
+    std::cout << "\n\n";
+    std::cout << "Test should equal the above ^\n";
+}
+
+bool bigTestsSingle(){
+    bool testResult = true;
+    auto start = std::chrono::high_resolution_clock::now();
+    BinSearchTree *bigTree = treeBuilder("bigTest1.txt");
+    // Stress testing only, not for actual checking
+    try {
+        std::cout << bigTree->size() << std::endl;
+        std::cout << bigTree->maxDepth() << std::endl;
+        std::cout << bigTree->iterMaxDepth() << std::endl;
+        std::cout << bigTree->find(100) << std::endl;
+        std::cout << bigTree->iterFind(100) << std::endl;
+        std::cout << bigTree->hasRootToLeafSum(1000) << std::endl;
+        std::cout << bigTree->kthSmallest(100) << std::endl;
+        std::cout << bigTree->remove(100) << std::endl;
+        bigTree->valuesAtLevel(25);
+        bigTree->iterValuesAtLevel(25);
+    } catch (std::exception &e){
+        std::cout << "Exception caught: " << e.what() << std::endl;
+        testResult = false;
+    }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop-start);
+    std::cout << "Time taken by single-tree tests: " << duration.count() << " microseconds" << std::endl;
+    return testResult;
+}
+
+bool bigTestsMult(){
+    bool testResult = true;
+    auto start = std::chrono::high_resolution_clock::now();
+    BinSearchTree *bigTree = treeBuilder("bigTest1.txt");
+    BinSearchTree *bigTree2 = treeBuilder("bigTest2.txt");
+    try{
+        bigTree->areIdentical(bigTree2);
+        bigTree->intersectWith(bigTree2);
+        bigTree->unionWith(bigTree2);
+        bigTree->differenceOf(bigTree2);
+    } catch (std::exception &e){
+        std::cout << "Exception caught: " << e.what() << std::endl;
+        testResult = false;
+    }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop-start);
+    std::cout << "Time taken by multi-tree tests: " << duration.count() << " microseconds" << std::endl;
+    return testResult;
+}
+
 // Utils
 void randomNumberGenerator(int n){
     for (int i = 0; i < n; i++){
@@ -224,10 +288,19 @@ int main( int argc, char *argv[] ) {
 
     BinSearchTree *tree = treeBuilder(fName);
 
+    bool testResult = bigTestsSingle();
+    if (testResult){std::cout << "Big tests passed.\n";}
+    else {std::cout << "Big tests failed.\n";}
+
+    testResult = bigTestsMult();
+    if (testResult){std::cout << "Big tests mult passed.\n";}
+    else {std::cout << "Big tests mult failed.\n";}
+
     // Utils
     //randomNumberGenerator(32);
 
     // Tests
+    /*
     int testNum = 0;
     std::vector<int> testResults;
     std::vector<std::vector<int>> multiTestResults;
@@ -297,5 +370,9 @@ int main( int argc, char *argv[] ) {
 
     std::cout << "Results for test 15:" << std::endl;
     testFifteen(tree);
+
+    std::cout << "Results for test 16:" << std::endl;
+    testSixteen(tree);*/
+
     return 0;
 }
