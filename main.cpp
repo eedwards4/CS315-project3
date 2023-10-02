@@ -4,12 +4,9 @@
 #include "BinSearchTree.hpp"
 #include "TreeNode.hpp"
 
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <chrono>
-#include "TreeNode.hpp"
-#include "BinSearchTree.hpp"
 
 // TEST SOLUTIONS
 #define TEST_SIZE 28
