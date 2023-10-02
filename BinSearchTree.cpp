@@ -57,29 +57,41 @@ bool BinSearchTree::remove(int v) {
         if (item->value() < v){item = item->rightSubtree();}
         else {item = item->leftSubtree();}
     }
-    if (item == nullptr){return false;} // Return false if we can't find the item
-
-    // Delete item
-    if (item->leftSubtree() == nullptr && item->rightSubtree() == nullptr){ // Leaf node, sever from tree
+    if (item == nullptr){return false;} // Item not found
+    if (item->leftSubtree() == nullptr && item->rightSubtree() == nullptr){ // Item is a leaf
         if (parent->leftSubtree() == item){parent->leftSubtree(nullptr);}
         else {parent->rightSubtree(nullptr);}
+        delete item;
+        return true;
     }
-    else if (item->rightSubtree() == nullptr){ // Only left child, splice subtree to parent
-        if (parent->leftSubtree() == item){parent->leftSubtree(item->leftSubtree());}
-        else {parent->rightSubtree(item->leftSubtree());}
+    if (item->leftSubtree() == nullptr || item->rightSubtree() == nullptr){ // Single-child
+        TreeNode *child;
+        if (item->leftSubtree() != nullptr){child = item->leftSubtree();}
+        else {child = item->rightSubtree();}
+        if (parent->leftSubtree() == item){parent->leftSubtree(child);}
+        else {parent->rightSubtree(child);}
+        delete item;
+        return true;
     }
-    else if (item->leftSubtree() == nullptr){ // Only right child, splice subtree to parent
-        if (parent->leftSubtree() == item){parent->leftSubtree(item->rightSubtree());}
-        else {parent->rightSubtree(item->rightSubtree());}
+    if (item->leftSubtree() != nullptr && item->rightSubtree() != nullptr){ // Two children
+        TreeNode *successor = item->rightSubtree(), *successorParent = nullptr;
+        if (successor->leftSubtree() == nullptr){ // Successor is immediate right child
+            item->value() = successor->value();
+            item->rightSubtree(successor->rightSubtree());
+            delete successor;
+            return true;
+        }
+        else{
+            while (successor->leftSubtree() != nullptr){
+                successorParent = successor;
+                successor = successor->leftSubtree();
+            }
+        }
+        item->value() = successor->value();
+        successorParent->leftSubtree(nullptr);
+        delete successor;
+        return true;
     }
-    else{ // Two children, restructure tree
-        // Sever node+subtree from tree
-        if (parent->leftSubtree() == item){parent->leftSubtree(nullptr);}
-        else {parent->rightSubtree(nullptr);}
-        restructureFromPoint(item, this); // Reinsert subtree into tree
-    }
-    delete item;
-    return true;
 }
 
 // Search methods
