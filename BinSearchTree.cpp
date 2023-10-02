@@ -353,9 +353,21 @@ BinSearchTree *BinSearchTree::makeBalancedTree(std::vector<int> &values, int sta
     return balancedTree;
 }
 
+void pareDupes(std::vector<int> &v){
+    int i = 0;
+    while (i < v.size()-1){
+        if (v.at(i) == v.at(i+1)){
+            v.erase(v.begin()+(i+1));
+        }
+        else{
+            i++;
+        }
+    }
+}
+
 // Main functions
 BinSearchTree *BinSearchTree::intersectWith(BinSearchTree *bst) {
-    BinSearchTree *intersection = new BinSearchTree();
+    BinSearchTree *intersection;
     std::vector<int> thisValues, otherValues, intersectionValues;
     makeInorderVector(root, thisValues);
     makeInorderVector(bst->root, otherValues);
@@ -380,6 +392,33 @@ BinSearchTree *BinSearchTree::intersectWith(BinSearchTree *bst) {
 }
 
 BinSearchTree *BinSearchTree::unionWith(BinSearchTree *bst) {
-    BinSearchTree *unionTree = new BinSearchTree();
-
+    BinSearchTree *unionTree;
+    std::vector<int> thisValues, otherValues, unionValues;
+    makeInorderVector(root, thisValues);
+    makeInorderVector(bst->root, otherValues);
+    int i = 0, j = 0;
+    while (i < thisValues.size() && j < otherValues.size()){ // Get values
+        if (thisValues.at(i) != otherValues.at(j)){
+            unionValues.push_back(thisValues.at(i));
+            unionValues.push_back(otherValues.at(j));
+        }
+        else{
+            unionValues.push_back(thisValues.at(i));
+        }
+        i++;
+        j++;
+    }
+    while (i < thisValues.size()){ // Add remaining values for i
+        unionValues.push_back(thisValues.at(i));
+        i++;
+    }
+    while (j < otherValues.size()){ // Add remaining values for j
+        unionValues.push_back(otherValues.at(j));
+        j++;
+    }
+    // Make balanced tree from values
+    std::sort(unionValues.begin(), unionValues.end());
+    pareDupes(unionValues);
+    unionTree = makeBalancedTree(unionValues, 0, unionValues.size()-1);
+    return unionTree;
 }

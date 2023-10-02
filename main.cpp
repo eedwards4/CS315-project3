@@ -183,6 +183,27 @@ void testFourteen(BinSearchTree *tree){
     std::cout << "Test should equal the above ^\n";
 }
 
+void testFifteen(BinSearchTree *tree){
+    std::cout << "Testing union...\n";
+    BinSearchTree *secondTree = treeBuilder("moreInputNumbers.txt");
+    BinSearchTree *thirdTree = treeBuilder("moreInputNumbers2.txt");
+    std::cout << "Union 1:\n";
+    BinSearchTree *unionTree = tree->unionWith(secondTree);
+    unionTree->inorderDump();
+    std::cout << "\n\n";
+    std::cout << "Test should equal the above ^\n";
+    std::cout << "Union 2:\n";
+    unionTree = secondTree->unionWith(thirdTree);
+    unionTree->inorderDump();
+    std::cout << "\n\n";
+    std::cout << "Test should equal the above ^\n";
+    std::cout << "Union 3:\n";
+    unionTree = tree->unionWith(thirdTree);
+    unionTree->inorderDump();
+    std::cout << "\n\n";
+    std::cout << "Test should equal the above ^\n";
+}
+
 // Utils
 void randomNumberGenerator(int n){
     for (int i = 0; i < n; i++){
@@ -274,6 +295,7 @@ int main( int argc, char *argv[] ) {
     std::cout << "Results for test 14:" << std::endl;
     testFourteen(tree);
 
-
+    std::cout << "Results for test 15:" << std::endl;
+    testFifteen(tree);
     return 0;
 }
