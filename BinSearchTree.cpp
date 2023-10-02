@@ -130,7 +130,7 @@ int BinSearchTree::kthSmallest(int k) {
         return -1;
     }
     std::vector<int> values;
-    inorderDump(root, values);
+    kthSmallest(root, values);
     return values.at(k-1);
 }
 
@@ -182,6 +182,23 @@ bool BinSearchTree::hasRootToLeafSum(TreeNode *root, int sum) {
     return hasRootToLeafSum(root->leftSubtree(), sum - root->value()) || hasRootToLeafSum(root->rightSubtree(), sum - root->value());
 }
 
+bool BinSearchTree::areIdentical(BinSearchTree *bst) {
+    return areIdentical(root, bst->root);
+}
+
+bool BinSearchTree::areIdentical(TreeNode *root1, TreeNode *root2) {
+    if (root1 == nullptr && root2 == nullptr){
+        return true;
+    }
+    if (root1 == nullptr || root2 == nullptr){
+        return false;
+    }
+    if (root1->value() != root2->value()){
+        return false;
+    }
+    return areIdentical(root1->leftSubtree(), root2->leftSubtree()) && areIdentical(root1->rightSubtree(), root2->rightSubtree());
+}
+
 void BinSearchTree::inorderDump() {
     inorderDump(root);
 }
@@ -195,13 +212,13 @@ void BinSearchTree::inorderDump(TreeNode *root) {
     inorderDump(root->rightSubtree());
 }
 
-void BinSearchTree::inorderDump(TreeNode *root, std::vector<int> &values) { // Overload to return values as vector
+void BinSearchTree::kthSmallest(TreeNode *root, std::vector<int> &values) { // Overload to return values as vector
     if (root == nullptr){
         return;
     }
-    inorderDump(root->leftSubtree(), values);
+    kthSmallest(root->leftSubtree(), values);
     values.push_back(root->value());
-    inorderDump(root->rightSubtree(), values);
+    kthSmallest(root->rightSubtree(), values);
 }
 
 void BinSearchTree::levelOrderDump() {

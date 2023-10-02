@@ -156,6 +156,17 @@ std::vector<int> testTwelve(BinSearchTree& tree){
     return testResults;
 }
 
+std::vector<int> testThirteen(BinSearchTree& firstTree, std::string fName){
+    BinSearchTree *secondTree = treeBuilder(fName), *thirdTree = treeBuilder(fName), *fourthTree = treeBuilder(fName);
+    thirdTree->insert(100); thirdTree->insert(200); thirdTree->insert(300);
+    fourthTree->insert(10); fourthTree->insert(20); fourthTree->insert(15);
+    std::vector<int> testResults;
+    testResults.push_back(firstTree.areIdentical(secondTree));
+    testResults.push_back(!firstTree.areIdentical(thirdTree));
+    testResults.push_back(!firstTree.areIdentical(fourthTree));
+    return testResults;
+}
+
 // Main
 int main( int argc, char *argv[] ) {
     // create a tree and then print the values of its nodes
@@ -217,11 +228,19 @@ int main( int argc, char *argv[] ) {
         std::cout << "Results for test 10:" << std::endl;
         testTen(*tree);
     } else {std::cout << "Skipping level tests [9-10]\n";}
+
     std::cout << "Results for test 11:" << std::endl;
-    if (testEleven(*tree) == true){std::cout << "OK" << std::endl;}
+    if (testEleven(*tree)){std::cout << "OK" << std::endl;}
     else {std::cout << "FAILED TEST 11" << std::endl;}
+
     std::cout << "Results for test 12:" << std::endl;
     for (int i : testTwelve(*tree)){
+        if (i == 0){std::cout << "FAILED TEST" << std::endl;}
+        else {std::cout << "OK" << std::endl;}
+    }
+
+    std::cout << "Results for test 13:" << std::endl;
+    for (int i : testThirteen(*tree, fName)){
         if (i == 0){std::cout << "FAILED TEST" << std::endl;}
         else {std::cout << "OK" << std::endl;}
     }
