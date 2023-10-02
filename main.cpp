@@ -167,6 +167,29 @@ std::vector<int> testThirteen(BinSearchTree& firstTree, std::string fName){
     return testResults;
 }
 
+void testFourteen(BinSearchTree *tree){
+    std::cout << "Testing intersect...\n";
+    BinSearchTree *secondTree = treeBuilder("moreInputNumbers.txt");
+    std::cout << "Intersection 1:\n";
+    BinSearchTree *intersectTree = tree->intersectWith(secondTree);
+    intersectTree->inorderDump();
+    std::cout << "\n38 41 85 101\n";
+    std::cout << "Test should equal the above ^\n";
+    std::cout << "Intersection 2:\n";
+    BinSearchTree *thirdTree = treeBuilder("moreInputNumbers2.txt");
+    intersectTree = secondTree->intersectWith(thirdTree);
+    intersectTree->inorderDump();
+    std::cout << "\n421 478 500 942\n";
+    std::cout << "Test should equal the above ^\n";
+}
+
+// Utils
+void randomNumberGenerator(int n){
+    for (int i = 0; i < n; i++){
+        std::cout << rand() % 100 << "\n";
+    }
+}
+
 // Main
 int main( int argc, char *argv[] ) {
     // create a tree and then print the values of its nodes
@@ -179,6 +202,9 @@ int main( int argc, char *argv[] ) {
     std::string fName = argv[1];
 
     BinSearchTree *tree = treeBuilder(fName);
+
+    // Utils
+    //randomNumberGenerator(32);
 
     // Tests
     int testNum = 0;
@@ -244,5 +270,10 @@ int main( int argc, char *argv[] ) {
         if (i == 0){std::cout << "FAILED TEST" << std::endl;}
         else {std::cout << "OK" << std::endl;}
     }
+
+    std::cout << "Results for test 14:" << std::endl;
+    testFourteen(tree);
+
+
     return 0;
 }

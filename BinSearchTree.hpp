@@ -33,6 +33,10 @@ public:
     // Insert methods
     void insert(int v);
     void iterInsert(int v);
+    // New Trees
+    BinSearchTree *intersectWith(BinSearchTree *bst);
+    BinSearchTree *unionWith(BinSearchTree *bst);
+    //BinSearchTree *differenceOf(BinSearchTree *bst);
 
 private:
     TreeNode *insert( TreeNode *, int );
@@ -49,6 +53,10 @@ private:
     void inorderDump(TreeNode *root);
     void kthSmallest(TreeNode *root, std::vector<int> &values);
     void valuesAtLevel(TreeNode *root, int l, int currLvl);
+    // New Trees [helpers]
+    void makeInorderVector(TreeNode *root, std::vector<int> &values);
+    BinSearchTree *makeBalancedTree(std::vector<int> &values, int start, int end);
+    TreeNode *makeBalancedTreeNode(std::vector<int> &values, int start, int end);
 
 };
 

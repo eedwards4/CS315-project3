@@ -4,6 +4,7 @@
 //
 
 #include <queue>
+#include <algorithm>
 #include "BinSearchTree.hpp"
 
 // Management
@@ -134,6 +135,15 @@ int BinSearchTree::kthSmallest(int k) {
     return values.at(k-1);
 }
 
+void BinSearchTree::kthSmallest(TreeNode *root, std::vector<int> &values) { // Overload to return values as vector
+    if (root == nullptr){
+        return;
+    }
+    kthSmallest(root->leftSubtree(), values);
+    values.push_back(root->value());
+    kthSmallest(root->rightSubtree(), values);
+}
+
 bool BinSearchTree::find(int v) {
     return find(root, v);
 }
@@ -210,15 +220,6 @@ void BinSearchTree::inorderDump(TreeNode *root) {
     inorderDump(root->leftSubtree());
     std::cout << root->value() << " ";
     inorderDump(root->rightSubtree());
-}
-
-void BinSearchTree::kthSmallest(TreeNode *root, std::vector<int> &values) { // Overload to return values as vector
-    if (root == nullptr){
-        return;
-    }
-    kthSmallest(root->leftSubtree(), values);
-    values.push_back(root->value());
-    kthSmallest(root->rightSubtree(), values);
 }
 
 void BinSearchTree::levelOrderDump() {
@@ -322,4 +323,63 @@ void BinSearchTree::iterInsert(int v){
             current = current->leftSubtree();
         }
     }
+}
+
+// New Trees
+// Helpers
+void BinSearchTree::makeInorderVector(TreeNode *root, std::vector<int> &values) { // Yes this is a duplicate of the kthSmallest overload. Why? Clarity.
+    if (root == nullptr){
+        return;
+    }
+    makeInorderVector(root->leftSubtree(), values);
+    values.push_back(root->value());
+    makeInorderVector(root->rightSubtree(), values);
+}
+
+TreeNode *BinSearchTree::makeBalancedTreeNode(std::vector<int> &values, int start, int end) {
+    if (start > end){
+        return nullptr;
+    }
+    int mid = (start + end) / 2;
+    TreeNode *nNode = new TreeNode(values.at(mid));
+    nNode->leftSubtree(makeBalancedTreeNode(values, start, mid-1));
+    nNode->rightSubtree(makeBalancedTreeNode(values, mid+1, end));
+    return nNode;
+}
+
+BinSearchTree *BinSearchTree::makeBalancedTree(std::vector<int> &values, int start, int end) {
+    BinSearchTree *balancedTree = new BinSearchTree();
+    balancedTree->root = makeBalancedTreeNode(values, start, end);
+    return balancedTree;
+}
+
+// Main functions
+BinSearchTree *BinSearchTree::intersectWith(BinSearchTree *bst) {
+    BinSearchTree *intersection = new BinSearchTree();
+    std::vector<int> thisValues, otherValues, intersectionValues;
+    makeInorderVector(root, thisValues);
+    makeInorderVector(bst->root, otherValues);
+    int i = 0, j = 0;
+    while (i < thisValues.size() && j < otherValues.size()){ // Get values
+        if (thisValues.at(i) == otherValues.at(j)){
+            intersectionValues.push_back(thisValues.at(i));
+            i++;
+            j++;
+        }
+        else if (thisValues.at(i) < otherValues.at(j)){
+            i++;
+        }
+        else {
+            j++;
+        }
+    }
+    // Make balanced tree from values
+    std::sort(intersectionValues.begin(), intersectionValues.end());
+    intersection = makeBalancedTree(intersectionValues, 0, intersectionValues.size()-1);
+    return intersection;
+}
+
+BinSearchTree *BinSearchTree::unionWith(BinSearchTree *bst) {
+    BinSearchTree *unionTree = new BinSearchTree();
+
 }
