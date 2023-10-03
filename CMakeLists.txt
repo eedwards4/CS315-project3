@@ -3,4 +3,4 @@ project(BinSearchTree)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(BinSearchTree main.cpp BinSearchTree.cpp BinSearchTree.hpp TreeNode.hpp)
+add_executable(BinSearchTree .cpp BinSearchTree.cpp BinSearchTree.hpp TreeNode.hpp)
