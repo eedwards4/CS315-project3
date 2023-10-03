@@ -92,6 +92,7 @@ bool BinSearchTree::remove(int v) {
         delete successor;
         return true;
     }
+    return false;
 }
 
 // Search methods
@@ -408,7 +409,7 @@ BinSearchTree *BinSearchTree::unionWith(BinSearchTree *bst) {
     std::vector<int> thisValues, otherValues, unionValues;
     makeInorderVector(root, thisValues);
     makeInorderVector(bst->root, otherValues);
-    int i = 0, j = 0;
+    long unsigned int i = 0, j = 0;
     while (i < thisValues.size() && j < otherValues.size()){ // Get values
         if (thisValues.at(i) != otherValues.at(j)){
             unionValues.push_back(thisValues.at(i));
@@ -440,7 +441,7 @@ BinSearchTree *BinSearchTree::differenceOf(BinSearchTree *bst) {
     std::vector<int> thisValues, otherValues, differenceValues;
     makeInorderVector(root, thisValues);
     makeInorderVector(bst->root, otherValues);
-    int i = 0, j = 0;
+    long unsigned int i = 0, j = 0;
     while (i < thisValues.size()){ // Get values
         if (!bst->find(thisValues.at(i))){
             differenceValues.push_back(thisValues.at(i));
