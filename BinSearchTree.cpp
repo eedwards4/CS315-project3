@@ -397,7 +397,7 @@ BinSearchTree *BinSearchTree::intersectWith(BinSearchTree *bst) {
     std::vector<int> thisValues, otherValues, intersectionValues;
     makeInorderVector(root, thisValues);
     makeInorderVector(bst->root, otherValues);
-    int i = 0, j = 0;
+    long unsigned int i = 0, j = 0;
     while (i < thisValues.size() && j < otherValues.size()){ // Get values
         if (thisValues.at(i) == otherValues.at(j)){
             intersectionValues.push_back(thisValues.at(i));
