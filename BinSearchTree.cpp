@@ -51,6 +51,7 @@ void restructureFromPoint(TreeNode *root, BinSearchTree *tree){ // Restructure t
 
 bool BinSearchTree::remove(int v) {
     TreeNode *item = root, *parent = nullptr;
+    bool rootFlag = false;
     while (item != nullptr){ // Find item
         if (item->value() == v){break;}
         parent = item;
@@ -58,6 +59,14 @@ bool BinSearchTree::remove(int v) {
         else {item = item->leftSubtree();}
     }
     if (item == nullptr){return false;} // Item not found
+    if (parent == nullptr && item == root){ // Tree head
+        if (item->leftSubtree() == nullptr && item->rightSubtree() == nullptr){
+            delete item;
+            root = nullptr;
+            return true;
+        }
+        rootFlag = true;
+    }
     if (item->leftSubtree() == nullptr && item->rightSubtree() == nullptr){ // Item is a leaf
         if (parent->leftSubtree() == item){parent->leftSubtree(nullptr);}
         else {parent->rightSubtree(nullptr);}
@@ -75,23 +84,27 @@ bool BinSearchTree::remove(int v) {
     }
     if (item->leftSubtree() != nullptr && item->rightSubtree() != nullptr){ // Two children
         TreeNode *successor = item->rightSubtree(), *successorParent = nullptr;
-        if (successor->leftSubtree() == nullptr){ // Successor is immediate right child
-            item->value() = successor->value();
-            item->rightSubtree(successor->rightSubtree());
-            delete successor;
-            return true;
+        while (successor->leftSubtree() != nullptr){ // Find successor
+            successorParent = successor;
+            successor = successor->leftSubtree();
         }
-        else{
-            while (successor->leftSubtree() != nullptr){
-                successorParent = successor;
-                successor = successor->leftSubtree();
+        if (successorParent == nullptr){ // Successor is immediate right child
+            if (successor->rightSubtree() != nullptr){
+                item->rightSubtree(successor->rightSubtree());
             }
+            else{item->rightSubtree(nullptr);}
+        }
+        else {
+            if (successor->rightSubtree() != nullptr) { // Successor has right child, splice to it's parent
+                successorParent->leftSubtree(successor->rightSubtree());
+            }
+            else{successorParent->leftSubtree(nullptr);}
         }
         item->value() = successor->value();
-        successorParent->leftSubtree(nullptr);
         delete successor;
         return true;
     }
+    if (rootFlag){root = item;}
     return false;
 }
 
